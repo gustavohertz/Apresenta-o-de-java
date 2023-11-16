@@ -1,11 +1,7 @@
 package org.example;
 
-import org.example.Bike;
-import org.example.Customer;
-import org.example.Hire;
-import org.example.Payment;
-
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -46,19 +42,50 @@ public class BikeRentalUI extends JFrame {
         resultArea = new JTextArea(10, 30);
         resultArea.setEditable(false);
 
-        // Layout da interface
-        JPanel panel = new JPanel();
-        panel.add(bikeNumberLabel);
-        panel.add(bikeNumberField);
-        panel.add(daysLabel);
-        panel.add(daysField);
-        panel.add(nameLabel);
-        panel.add(nameField);
-        panel.add(postalCodeLabel);
-        panel.add(postalCodeField);
-        panel.add(telephoneLabel);
-        panel.add(telephoneField);
-        panel.add(rentButton);
+        // Layout da interface usando GridBagLayout
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5); // Margens
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(bikeNumberLabel, gbc);
+
+        gbc.gridx = 1;
+        panel.add(bikeNumberField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        panel.add(daysLabel, gbc);
+
+        gbc.gridx = 1;
+        panel.add(daysField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        panel.add(nameLabel, gbc);
+
+        gbc.gridx = 1;
+        panel.add(nameField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(postalCodeLabel, gbc);
+
+        gbc.gridx = 1;
+        panel.add(postalCodeField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        panel.add(telephoneLabel, gbc);
+
+        gbc.gridx = 1;
+        panel.add(telephoneField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2; // Este componente ocupará duas colunas
+        panel.add(rentButton, gbc);
 
         add(panel);
         add(new JScrollPane(resultArea));
@@ -85,7 +112,7 @@ public class BikeRentalUI extends JFrame {
                 resultArea.append("Detalhes da bicicleta número '" + bikeNumber + "':\n");
                 resultArea.append("DEPOSIT: $" + rentedBike.getDeposit() + "\n");
                 resultArea.append("RATE: $" + rentedBike.getRate() + "\n");
-                resultArea.append("TOTAL COST: $"+ (rentedBike.getDeposit()+ rentedBike.getRate())+"\n\n");
+                resultArea.append("TOTAL COST: $"+(rentedBike.getDeposit()+ rentedBike.getRate())+"\n\n");
 
                 rentedBike.calculateCost(days);
 
