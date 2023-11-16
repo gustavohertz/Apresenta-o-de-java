@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class BikeRentalUI extends JFrame {
 
@@ -128,11 +131,38 @@ public class BikeRentalUI extends JFrame {
                 resultArea.append("Telefone: " + customer.getTelephone() + "\n");
 
                 resultArea.append("\nAluguel efetuado com sucesso!\n");
+
+                // Criar arquivo de texto
+                createTextFile(rentedBike, customer, hire);
             } else {
                 resultArea.setText("Bicicleta não encontrada.\n");
             }
         } catch (NumberFormatException ex) {
             resultArea.setText("Por favor, insira números válidos.\n");
+        }
+    }
+
+    private void createTextFile(Bike bike, Customer customer, Hire hire) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Aluguel.txt"))) {
+            // Escrever informações do aluguel no arquivo
+            writer.write("Detalhes da bicicleta número '" + bike.getBikeNumber() + "':\n");
+            writer.write("DEPOSIT: $" + bike.getDeposit() + "\n");
+            writer.write("RATE: $" + bike.getRate() + "\n");
+            writer.write("TOTAL COST: $"+(bike.getDeposit()+ bike.getRate())+"\n\n");
+
+            bike.calculateCost(hire.getNumberOfDays());
+
+            writer.write("\nDetalhes do Cliente:\n");
+            writer.write("Nome: " + customer.getName() + "\n");
+            writer.write("Código Postal: " + customer.getPostcode() + "\n");
+            writer.write("Telefone: " + customer.getTelephone() + "\n");
+
+            writer.write("\nAluguel efetuado com sucesso!\n");
+
+            JOptionPane.showMessageDialog(this, "Arquivo de texto criado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao criar o arquivo de texto.", "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
 }
